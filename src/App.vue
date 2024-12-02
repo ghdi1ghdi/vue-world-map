@@ -1,5 +1,5 @@
 <template>
-  <div class="vue-world-map">
+  <div class="world-vue-map">
     <Map
       @hoverCountry="onHoverCountry"
       @hoverLeaveCountry="onHoverLeaveCountry"
@@ -81,27 +81,25 @@ export default {
       position: position,
       node: document.createElement("style"),
       chromaScale: chroma.scale([this.$props.lowColor, this.$props.highColor]),
-      hoverTimeout: null, // 타이머를 저장할 변수
+      hoverTimeout: null,
     };
   },
   methods: {
     onHoverCountry(country) {
-      // 같은 국가인 경우 업데이트하지 않음
       if (this.legend.code === country.code) {
         return;
       }
 
-      clearTimeout(this.hoverTimeout); // 이전 타이머 취소
+      clearTimeout(this.hoverTimeout);
       this.hoverTimeout = setTimeout(() => {
         this.legend = country;
         this.position = country.position;
         this.$emit("hoverCountry", country);
-      }, 50); // 200ms 지연
+      }, 50);
     },
     onHoverLeaveCountry(country) {
-      clearTimeout(this.hoverTimeout); // 이전 타이머 취소
+      clearTimeout(this.hoverTimeout);
       this.hoverTimeout = setTimeout(() => {
-        // 다른 국가로 이동했을 때만 legend 초기화
         if (this.legend.code === country.code) {
           return;
         }
@@ -130,12 +128,12 @@ export default {
 </script>
 
 <style scoped>
-.vue-world-map,
+.world-vue-map,
 #map-svg {
   height: 100%;
 }
 
-.vue-world-map {
+.world-vue-map {
   position: relative;
 }
 
