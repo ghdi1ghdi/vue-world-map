@@ -1,5 +1,5 @@
 <template>
-  <div class="world-vue-map">
+  <div class="vue-world-map">
     <Map
       @hoverCountry="onHoverCountry"
       @hoverLeaveCountry="onHoverLeaveCountry"
@@ -128,12 +128,12 @@ export default {
 </script>
 
 <style scoped>
-.world-vue-map,
+.vue-world-map,
 #map-svg {
   height: 100%;
 }
 
-.world-vue-map {
+.vue-world-map {
   position: relative;
 }
 

@@ -18,7 +18,10 @@ const getMaxAndMinCountryDataValues = (countryData) => {
 };
 
 export const getBaseCss = ({ defaultCountryFillColor, countryStrokeColor }) =>
-  `.world-vue-map .land{fill:${defaultCountryFillColor};stroke:${countryStrokeColor};}`;
+  `.vue-world-map .land{
+    fill:${defaultCountryFillColor};
+    stroke:${countryStrokeColor};
+  }`;
 
 export const getDynamicMapCss = (countryData, chromaScale) => {
   const { min, max } = getMaxAndMinCountryDataValues(countryData);
@@ -32,7 +35,7 @@ export const getDynamicMapCss = (countryData, chromaScale) => {
     const scaleValue = colorScaleUnit * (value - min);
     const hex = chromaScale(scaleValue).hex();
 
-    css.push(`.world-vue-map #${key} { fill: ${hex}; }`);
+    css.push(`.vue-world-map #${key} { fill: ${hex}; }`);
   });
 
   return css;

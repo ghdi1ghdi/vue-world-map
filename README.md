@@ -2,7 +2,7 @@
 
 A Vue JS Component for displaying dynamic data on a world map.
 
-Forked from [Ghrehh's world-map-vue](https://github.com/Ghrehh/world-map-vue)
+Forked from [Ghrehh's world-map-vue](https://github.com/Ghrehh/vue-world-map.git)
 
 Map from [amCharts](https://www.amcharts.com/svg-maps/?map=world)
 

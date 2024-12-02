@@ -18,10 +18,10 @@ describe("getDynamicMapCss", () => {
   };
 
   const expectedResult = [
-    ".world-vue-map #US { fill: 0 hex; }",
-    ".world-vue-map #CA { fill: 0.30000000000000004 hex; }",
-    ".world-vue-map #GB { fill: 0.4 hex; }",
-    ".world-vue-map #IE { fill: 1 hex; }",
+    ".vue-world-map #US { fill: 0 hex; }",
+    ".vue-world-map #CA { fill: 0.30000000000000004 hex; }",
+    ".vue-world-map #GB { fill: 0.4 hex; }",
+    ".vue-world-map #IE { fill: 1 hex; }",
   ];
 
   const result = getDynamicMapCss(countyData, fakeChromaScale);
@@ -37,7 +37,7 @@ describe("getBaseCss", () => {
     countryStrokeColor: "bar",
   };
 
-  const expectedResult = ".world-vue-map .land{fill:foo;stroke:bar;}";
+  const expectedResult = ".vue-world-map .land{fill:foo;stroke:bar;}";
   const result = getBaseCss(props);
 
   it("should return the css string", () => {
