@@ -1,5 +1,5 @@
 {
-  "name": "vue-world-map",
+  "name": "world-vue-map",
   "version": "0.1.1",
   "description": "",
   "main": "src/App.vue",
@@ -32,6 +32,6 @@
     "vue-jest": "^1.4.0",
     "vue-loader": "^13.3.0"
   },
-  "author": "",
+  "author": "jay (Hanyang University)",
   "license": "ISC"
 }
