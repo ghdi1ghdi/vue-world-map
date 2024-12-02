@@ -1,20 +1,48 @@
 <template>
-<div class="vue-world-map">
-  <Map />
-</div>
+  <div class="vue-world-map">
+    <Map
+      @hoverCountry="onHoverCountry"
+      @hoverLeaveCountry="onHoverLeaveCountry"
+      :viewBox="adjustMapViewBox"
+    />
+
+    <div
+      v-if="legend.name"
+      class="vue-map-legend"
+      :style="'left:' + position.left + 'px; top: ' + position.top + 'px'"
+    >
+      <div class="vue-map-legend-header">
+        <span>{{ legend.name }}</span>
+      </div>
+      <div class="vue-map-legend-content">
+        <span>{{ countryData[legend.code] || 0 }}</span>
+      </div>
+    </div>
+  </div>
 </template>
 
 <script>
-import chroma from 'chroma-js';
-import Map from './Map';
+import chroma from "chroma-js";
+import Map from "./Map";
 import {
   getDynamicMapCss,
   getBaseCss,
   getCombinedCssString,
-} from './dynamic-map-css';
+} from "./dynamic-map-css";
 
+let legend = {
+  data: null,
+  code: null,
+  name: null,
+};
+
+let position = {
+  left: 0,
+  top: 0,
+};
 
 export default {
+  name: "MapChart",
   components: { Map },
   watch: {
     countryData() {
@@ -24,11 +52,11 @@ export default {
   props: {
     lowColor: {
       type: String,
-      default: '#fde2e2',
+      default: "#fde2e2",
     },
     highColor: {
       type: String,
-      default: '#d83737',
+      default: "#d83737",
     },
     countryData: {
       type: Object,
@@ -36,23 +64,61 @@ export default {
     },
     defaultCountryFillColor: {
       type: String,
-      default: '#dadada',
+      default: "#dadada",
     },
     countryStrokeColor: {
       type: String,
-      default: 'black',
+      default: "#909090",
+    },
+    adjustMapViewBox: {
+      type: String,
+      default: "0 0 1008 650",
     },
   },
   data() {
     return {
-      node: document.createElement('style'),
+      legend: legend,
+      position: position,
+      node: document.createElement("style"),
       chromaScale: chroma.scale([this.$props.lowColor, this.$props.highColor]),
+      hoverTimeout: null, // 타이머를 저장할 변수
     };
   },
   methods: {
+    onHoverCountry(country) {
+      // 같은 국가인 경우 업데이트하지 않음
+      if (this.legend.code === country.code) {
+        return;
+      }
+
+      clearTimeout(this.hoverTimeout); // 이전 타이머 취소
+      this.hoverTimeout = setTimeout(() => {
+        this.legend = country;
+        this.position = country.position;
+        this.$emit("hoverCountry", country);
+      }, 50); // 200ms 지연
+    },
+    onHoverLeaveCountry(country) {
+      clearTimeout(this.hoverTimeout); // 이전 타이머 취소
+      this.hoverTimeout = setTimeout(() => {
+        // 다른 국가로 이동했을 때만 legend 초기화
+        if (this.legend.code === country.code) {
+          return;
+        }
+        this.legend = {
+          data: null,
+          code: null,
+          name: null,
+        };
+        this.$emit("hoverLeaveCountry", country);
+      }, 50);
+    },
     renderMapCSS() {
       const baseCss = getBaseCss(this.$props);
-      const dynamicMapCss = getDynamicMapCss(this.$props.countryData, this.chromaScale);
+      const dynamicMapCss = getDynamicMapCss(
+        this.$props.countryData,
+        this.chromaScale
+      );
       this.$data.node.innerHTML = getCombinedCssString(baseCss, dynamicMapCss);
     },
   },
@@ -63,12 +129,31 @@ export default {
 };
 </script>
 
-<style>
-.vue-world-map {
+<style scoped>
+.vue-world-map,
+#map-svg {
   height: 100%;
 }
 
-#map-svg {
-  height: 100%;
+.vue-world-map {
+  position: relative;
+}
+
+.vue-map-legend {
+  width: 185px;
+  background: #fff;
+  border: 1px solid;
+  border-color: #acacad;
+  position: absolute;
+}
+
+.vue-map-legend-header {
+  padding: 10px 15px;
+}
+
+.vue-map-legend-content {
+  padding: 10px 15px;
+  background: #dadbda8f;
+  border-top: 1px solid #acacad;
 }
 </style>
