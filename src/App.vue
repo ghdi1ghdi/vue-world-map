@@ -12,10 +12,13 @@
       :style="'left:' + position.left + 'px; top: ' + position.top + 'px'"
     >
       <div class="vue-map-legend-header">
-        <span>{{ legend.name }}</span>
-      </div>
-      <div class="vue-map-legend-content">
-        <span>{{ countryData[legend.code] || 0 }}</span>
+        <img
+          :alt="legend.code"
+          :src="`https://flagsapi.com/${legend.code}/flat/64.png`"
+          class="flag"
+          style="width: 20px; margin-right: 10px"
+        />
+        <span>{{ legend.name }} : {{ countryData[legend.code] || 0 }}</span>
       </div>
     </div>
   </div>
@@ -138,15 +141,19 @@ export default {
 }
 
 .vue-map-legend {
-  width: 185px;
-  background: #fff;
-  border: 1px solid;
-  border-color: #acacad;
+  display: flex;
+  width: auto;
+  justify-content: center;
+  background: rgba(0, 0, 0, 0.8);
+  border-radius: 0.5rem;
+  color: rgb(255, 255, 255);
   position: absolute;
 }
 
 .vue-map-legend-header {
   padding: 10px 15px;
+  display: flex;
+  align-items: center;
 }
 
 .vue-map-legend-content {

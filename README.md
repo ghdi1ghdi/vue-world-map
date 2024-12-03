@@ -44,3 +44,5 @@ numerical value associated with it.
 ## Other changes
 
 Resolved the problem where the overlay box was intermittently flickering.
+
+Enhance map legend with country flags and update styling
